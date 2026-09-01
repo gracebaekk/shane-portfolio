@@ -1,4 +1,4 @@
-# Shane Choi — Portfolio
+# Shane Choi | Portfolio
 
 Next.js 15 (App Router) + Tailwind CSS v4. Currently the homepage only.
 
@@ -15,7 +15,7 @@ Open http://localhost:3000
 
 - **Projects** live in `src/lib/projects.ts`. Each entry drives a card on the homepage.
   Every project renders a colored placeholder tile until you set `cover` to an image
-  path — drop files in `public/work/` and set e.g. `cover: "/work/kasa.jpg"`.
+  path: drop files in `public/work/` and set e.g. `cover: "/work/kasa.jpg"`.
 - **Bio, contact links, and skill tags** are inline in `src/app/page.tsx`.
 - **Resume** is linked at `/resume.pdf`; put the file at `public/resume.pdf`.
 - **Colors and fonts** are defined once in the `@theme` block of `src/app/globals.css`.

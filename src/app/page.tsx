@@ -76,7 +76,7 @@ export default function Home() {
               </h2>
               <div className="mt-8 space-y-5 text-lg leading-relaxed text-ink-soft">
                 <p>
-                  Growing up, I was drawn to visuals before I had a name for it— the way
+                  Growing up, I was drawn to visuals before I had a name for it, the way
                   a brand feels, how a photo is composed, what makes something feel
                   intentional versus forgettable. Aesthetics were always the thread, even
                   when I didn&apos;t know that&apos;s what I was following.
