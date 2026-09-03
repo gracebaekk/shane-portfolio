@@ -7,6 +7,8 @@ export type Project = {
   blurb: string;
   /** Drop a file in /public/work and set the path here to replace the placeholder tile. */
   cover?: string;
+  /** Optional object-position classes for the cover image */
+  coverClassName?: string;
   /** Two hues used by the placeholder tile until a real cover image exists. */
   swatch: [string, string];
   status?: "live" | "coming-soon";
@@ -35,7 +37,8 @@ export const projects: Project[] = [
     kicker: "UX/UI · Product Design · Research",
     year: "2025",
     blurb:
-      "Reimagined a core ordering flow to reduce decision fatigue, grounded in user research and rapid prototyping.",
+      "Redesigned DoorDash's search and saved stores experience with advanced filters to help users find food faster.",
+    cover: "/work/doordash/DoorDash_lowfi.png",
     swatch: ["#cbd8c4", "#aec5b5"],
   },
   {
@@ -45,7 +48,9 @@ export const projects: Project[] = [
     kicker: "UX/UI · Research · Digital Experience",
     year: "2025",
     blurb:
-      "Redesigned a campus safety service so students could find and request support without friction.",
+      "Redesigned UCLA CAPS intake as a digital app so students can onboard, get matched with services, and schedule appointments without phone triage.",
+    cover: "/work/bruinCAPS/hifi.png",
+    coverClassName: "object-left-top",
     swatch: ["#c9d6e4", "#adc0d8"],
   },
   {

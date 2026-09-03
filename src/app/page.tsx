@@ -6,9 +6,36 @@ import { projects } from "@/lib/projects";
 
 const contacts = [
   { label: "Email", value: "shanechoi820@g.ucla.edu", href: "shanechoi820@g.ucla.edu" },
-  { label: "LinkedIn", value: "in/shanechoi", href: "https://www.linkedin.com/in/shane-c-5797bb248/" },
-  { label: "Instagram", value: "@shanechoi", href: "https://instagram.com" },
-  { label: "Resume", value: "PDF ↓", href: "/resume.pdf" },
+  { label: "LinkedIn", value: "in/shane-c", href: "https://www.linkedin.com/in/shane-c-5797bb248/" },
+  { label: "Instagram", value: "@shanekchoi", href: "https://www.instagram.com/shanekchoi/" },
+  { label: "Resume", value: "PDF ↓", href: "https://drive.google.com/file/d/1Yu217rJCaiEsy1uP4Bv3PpziDg53be_Y/view?usp=sharing" },
+];
+
+const socialPlatforms = [
+  {
+    label: "Instagram",
+    handle: "@shanekchoi",
+    href: "https://www.instagram.com/shanekchoi/",
+  },
+  {
+    label: "TikTok",
+    handle: "@shanekchoi",
+    href: "https://www.tiktok.com/@shanekchoi",
+  },
+];
+
+const shortFormTiles = [
+  { platform: "Instagram", href: "https://www.instagram.com/shanekchoi/", from: "#f0cfc9", to: "#e2b7bd" },
+  { platform: "TikTok", href: "https://www.tiktok.com/@shanekchoi", from: "#d6cde0", to: "#c9d6e4" },
+  { platform: "Instagram", href: "https://www.instagram.com/shanekchoi/", from: "#f0e3bf", to: "#f0cfc9" },
+  { platform: "TikTok", href: "https://www.tiktok.com/@shanekchoi", from: "#cbd8c4", to: "#c9bcb0" },
+];
+
+const photoTiles = [
+  ["#e5ddd4", "#c9bcb0"],
+  ["#f0cfc9", "#d6cde0"],
+  ["#c9d6e4", "#cbd8c4"],
+  ["#f0e3bf", "#e2b7bd"],
 ];
 
 const disciplines = [
@@ -47,7 +74,7 @@ export default function Home() {
 
           <div className="mt-10 flex flex-wrap items-center gap-4">
             <Link
-              href="#work"
+              href="#projects"
               className="label rounded-full bg-ink px-6 py-3 text-cream hover:bg-accent"
             >
               Projects ↓
@@ -131,7 +158,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="work" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-24">
+        <section id="projects" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-24">
           <div className="flex items-baseline justify-between border-b border-ink/10 pb-6">
             <p className="label text-ink-soft">Projects</p>
             <p className="label text-ink-soft">{projects.length} projects</p>
@@ -148,31 +175,88 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="photo" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-24">
-          <div className="flex items-baseline justify-between border-b border-ink/10 pb-6">
-            <p className="label text-ink-soft">Photo</p>
-            <Link href="/photo" className="label text-ink-soft hover:text-accent">
-              All photography ↗
-            </Link>
-          </div>
+        <section
+          id="media"
+          className="scroll-mt-20 border-t border-ink/10 bg-cream-deep"
+        >
+          <div className="mx-auto max-w-6xl px-6 py-24">
+            <div className="flex flex-wrap items-baseline justify-between gap-4 border-b border-ink/10 pb-6">
+              <p className="label text-ink-soft">Media</p>
+              <div className="flex flex-wrap gap-x-6 gap-y-2">
+                {socialPlatforms.map((platform) => (
+                  <a
+                    key={platform.label}
+                    href={platform.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="label text-ink-soft hover:text-accent"
+                  >
+                    {platform.label} ↗
+                  </a>
+                ))}
+              </div>
+            </div>
 
-          <h2 className="font-display mt-10 max-w-2xl text-4xl leading-tight md:text-5xl">
-            text
-          </h2>
+            <h2 className="font-display mt-10 max-w-3xl text-4xl leading-tight md:text-5xl">
+              Behind the work, I&apos;m always{" "}
+              <em className="italic">making something.</em>
+            </h2>
 
-          <div className="mt-12 grid grid-cols-2 gap-4 md:grid-cols-4">
-            {[
-              ["#f0cfc9", "#d6cde0"],
-              ["#e5ddd4", "#c9bcb0"],
-              ["#c9d6e4", "#cbd8c4"],
-              ["#f0e3bf", "#e2b7bd"],
-            ].map(([from, to], i) => (
-              <div
-                key={i}
-                className="aspect-3/4 rounded-sm border border-ink/10"
-                style={{ background: `linear-gradient(160deg, ${from}, ${to})` }}
-              />
-            ))}
+            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-soft">
+              In my free time I make short form content on Instagram and TikTok:
+              fashion, beauty, culture, and whatever I&apos;m experimenting with that
+              week. Shooting, editing, and posting keeps me close to what&apos;s
+              happening and sharpens my eye outside of client work.
+            </p>
+
+            <div className="mt-16">
+              <div className="flex flex-wrap items-baseline justify-between gap-4 border-b border-ink/15 pb-3">
+                <p className="label text-accent">Short form</p>
+                <p className="label text-ink-soft">@shanekchoi</p>
+              </div>
+
+              <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-4">
+                {shortFormTiles.map((tile, i) => (
+                  <a
+                    key={i}
+                    href={tile.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group relative aspect-9/16 overflow-hidden rounded-sm border border-ink/10"
+                    style={{
+                      background: `linear-gradient(160deg, ${tile.from}, ${tile.to})`,
+                    }}
+                  >
+                    <span className="label absolute top-3 left-3 rounded-full bg-cream/90 px-3 py-1 text-ink-soft">
+                      {tile.platform}
+                    </span>
+                    <span className="label absolute right-3 bottom-3 rounded-full bg-cream/90 px-3 py-1 opacity-0 transition-opacity group-hover:opacity-100">
+                      View ↗
+                    </span>
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-20">
+              <div className="flex flex-wrap items-baseline justify-between gap-4 border-b border-ink/10 pb-6">
+                <p className="label text-accent">Photography</p>
+                <Link href="/photo" className="label text-ink-soft hover:text-accent">
+                  All photography ↗
+                </Link>
+              </div>
+
+
+              <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-4">
+                {photoTiles.map(([from, to], i) => (
+                  <div
+                    key={i}
+                    className="aspect-3/4 rounded-sm border border-ink/10"
+                    style={{ background: `linear-gradient(160deg, ${from}, ${to})` }}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
         </section>
 
@@ -189,6 +273,8 @@ export default function Home() {
                   <p className="label text-ink/50">{contact.label}</p>
                   <a
                     href={contact.href}
+                    target={contact.label === "Resume" ? "_blank" : undefined}
+                    rel={contact.label === "Resume" ? "noopener noreferrer" : undefined}
                     className="mt-2 block text-lg hover:text-accent"
                   >
                     {contact.value}

@@ -10,40 +10,111 @@ type CaseStudyPageProps = {
   nextProject?: Project;
 };
 
+function renderSectionImage(image: NonNullable<CaseStudy["sections"][number]["images"]>[number]) {
+  if (image.group) {
+    return (
+      <ImageGroup
+        key={image.alt}
+        images={image.group}
+        caption={image.caption}
+      />
+    );
+  }
+
+  return (
+    <ImageBlock
+      key={image.alt}
+      alt={image.alt}
+      src={image.src}
+      caption={image.caption}
+      swatch={image.swatch}
+      className={image.className}
+      natural={image.natural ?? !!image.src}
+      fullWidth={image.fullWidth}
+    />
+  );
+}
+
+function renderSectionImages(
+  images: NonNullable<CaseStudy["sections"][number]["images"]>,
+  columns: 2 | 3 = 3,
+) {
+  return (
+    <div
+      className={`mt-12 grid grid-cols-1 items-end gap-6 overflow-visible ${columns === 2 ? "sm:grid-cols-2" : "sm:grid-cols-3"}`}
+    >
+      {images.map((image) => (
+        <div
+          key={image.alt}
+          className={
+            image.fullWidth || image.colSpan === 3
+              ? "sm:col-span-3"
+              : image.colSpan === 2
+                ? "sm:col-span-2"
+                : undefined
+          }
+        >
+          {renderSectionImage(image)}
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function CaseStudySectionBlock({ section }: { section: CaseStudy["sections"][number] }) {
   return (
     <section className="mx-auto max-w-6xl px-6 py-20 border-b border-ink/10 last:border-b-0">
       <p className="label text-accent">{section.title}</p>
-      {section.images && section.images.length > 0 ? (
-        <div className="mt-8 grid gap-12 md:grid-cols-[1fr_1.2fr] md:items-start">
-          <div className="space-y-5 text-lg leading-relaxed text-ink-soft">
-            {section.body.map((paragraph) => (
-              <p key={paragraph.slice(0, 40)}>{paragraph}</p>
-            ))}
-          </div>
+      {(section.images?.length ?? 0) > 0 || (section.sidebarImages?.length ?? 0) > 0 ? (
+        section.imageLayout === "sidebar-below" ? (
+          <>
+            {section.sidebarImages && section.sidebarImages.length > 0 ? (
+              <div className="mt-8 grid gap-12 md:grid-cols-[1fr_1.2fr] md:items-start">
+                <div className="space-y-5 text-lg leading-relaxed text-ink-soft">
+                  {section.body.map((paragraph) => (
+                    <p key={paragraph.slice(0, 40)}>{paragraph}</p>
+                  ))}
+                </div>
 
-          <div className="space-y-8 overflow-visible">
-            {section.images.map((image) =>
-              image.group ? (
-                <ImageGroup
-                  key={image.alt}
-                  images={image.group}
-                  caption={image.caption}
-                />
-              ) : (
-                <ImageBlock
-                  key={image.alt}
-                  alt={image.alt}
-                  src={image.src}
-                  caption={image.caption}
-                  swatch={image.swatch}
-                  className={image.className}
-                  natural={image.natural ?? !!image.src}
-                />
-              ),
+                <div className="space-y-8 overflow-visible">
+                  {section.sidebarImages.map((image) => renderSectionImage(image))}
+                </div>
+              </div>
+            ) : (
+              <div className="mt-8 space-y-5 text-lg leading-relaxed text-ink-soft">
+                {section.body.map((paragraph) => (
+                  <p key={paragraph.slice(0, 40)}>{paragraph}</p>
+                ))}
+              </div>
             )}
+
+            {section.images && section.images.length > 0 &&
+              renderSectionImages(section.images, section.imageColumns ?? 3)}
+          </>
+        ) : section.imageLayout === "below" ? (
+          <>
+            <div className="mt-8 space-y-5 text-lg leading-relaxed text-ink-soft">
+              {section.body.map((paragraph) => (
+                <p key={paragraph.slice(0, 40)}>{paragraph}</p>
+              ))}
+            </div>
+
+            {section.images && section.images.length > 0 &&
+              renderSectionImages(section.images, section.imageColumns ?? 3)}
+          </>
+        ) : (
+          <div className="mt-8 grid gap-12 md:grid-cols-[1fr_1.2fr] md:items-start">
+            <div className="space-y-5 text-lg leading-relaxed text-ink-soft">
+              {section.body.map((paragraph) => (
+                <p key={paragraph.slice(0, 40)}>{paragraph}</p>
+              ))}
+            </div>
+
+            <div className="space-y-8 overflow-visible">
+              {section.images?.map((image) => renderSectionImage(image))}
+            </div>
           </div>
-        </div>
+        )
       ) : (
         <div className="mt-8 space-y-5 text-lg leading-relaxed text-ink-soft">
           {section.body.map((paragraph) => (
@@ -67,7 +138,7 @@ export default function CaseStudyPage({
     <article>
       <header className="mx-auto max-w-6xl px-6 pt-12 pb-16 md:pt-20">
         <Link
-          href="/#work"
+          href="/#projects"
           className="label text-ink-soft hover:text-accent"
         >
           ← Back to work

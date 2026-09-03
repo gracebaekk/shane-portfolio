@@ -1,10 +1,14 @@
 import Link from "next/link";
 
 const links = [
-  { href: "/#work", text: "Work" },
   { href: "/#about", text: "About" },
-  { href: "/#photo", text: "Photo" },
-  { href: "/resume.pdf", text: "Resume" },
+  { href: "/#projects", text: "Projects" },
+  { href: "/#media", text: "Media" },
+  {
+    href: "https://drive.google.com/file/d/1Yu217rJCaiEsy1uP4Bv3PpziDg53be_Y/view?usp=sharing",
+    text: "Resume",
+    external: true,
+  },
 ];
 
 export default function Nav() {
@@ -17,9 +21,20 @@ export default function Nav() {
         <ul className="flex items-center gap-6">
           {links.map((link) => (
             <li key={link.href}>
-              <Link href={link.href} className="label text-ink-soft hover:text-accent">
-                {link.text}
-              </Link>
+              {"external" in link && link.external ? (
+                <a
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="label text-ink-soft hover:text-accent"
+                >
+                  {link.text}
+                </a>
+              ) : (
+                <Link href={link.href} className="label text-ink-soft hover:text-accent">
+                  {link.text}
+                </Link>
+              )}
             </li>
           ))}
         </ul>
