@@ -4,28 +4,30 @@ import path from "path";
 const PHOTOGRAPHY_DIR = path.join(process.cwd(), "public/media/photography");
 const IMAGE_PATTERN = /\.(jpe?g|png|webp|gif|avif)$/i;
 
-/** Hand-pick filenames for the homepage preview grid. Leave empty to keep placeholders. */
-export const featuredPhotography: string[] = [];
+/** Hand-pick filenames for the homepage preview grid. */
+export const featuredPhotography: string[] = [
+  "IMG_8939.jpeg",
+  "IMG_5069.jpeg",
+  "IMG_2365.jpeg",
+  "photoshoot/8.jpg",
+];
 
 export type Photoshoot = {
   slug: string;
-  title: string;
-  description?: string;
 };
 
 export const photoshoots: Photoshoot[] = [
-  {
-    slug: "photoshoot1",
-    title: "Staff Photoshoot",
-  },
+  { slug: "photoshoot" },
 ];
 
 function sortImagePaths(files: string[]): string[] {
   return files.sort((a, b) => {
-    const numA = Number.parseInt(path.basename(a), 10);
-    const numB = Number.parseInt(path.basename(b), 10);
+    const digitsA = path.basename(a).match(/\d+/g);
+    const digitsB = path.basename(b).match(/\d+/g);
+    const numA = digitsA ? Number.parseInt(digitsA[digitsA.length - 1], 10) : NaN;
+    const numB = digitsB ? Number.parseInt(digitsB[digitsB.length - 1], 10) : NaN;
 
-    if (!Number.isNaN(numA) && !Number.isNaN(numB)) {
+    if (!Number.isNaN(numA) && !Number.isNaN(numB) && numA !== numB) {
       return numA - numB;
     }
 
@@ -45,7 +47,9 @@ function readImagesFromDir(dir: string, publicPrefix: string): string[] {
 }
 
 export function getPhotographyImages(): string[] {
-  return readImagesFromDir(PHOTOGRAPHY_DIR, "/media/photography");
+  return readImagesFromDir(PHOTOGRAPHY_DIR, "/media/photography").filter(
+    (src) => path.basename(src).toLowerCase() !== "hero.png",
+  );
 }
 
 export function getPhotoshootImages(slug: string): string[] {
@@ -55,12 +59,22 @@ export function getPhotoshootImages(slug: string): string[] {
   );
 }
 
+export function getJustForFunImages(): string[] {
+  return readImagesFromDir(
+    path.join(PHOTOGRAPHY_DIR, "just-for-fun"),
+    "/media/photography/just-for-fun",
+  );
+}
+
+export function getAllPhotoshootImages(): string[] {
+  return photoshoots.flatMap((shoot) => getPhotoshootImages(shoot.slug));
+}
+
 export function getFeaturedPhotographyImages(): string[] {
-  if (featuredPhotography.length === 0) return [];
-
-  const allImages = new Set(getPhotographyImages());
-
   return featuredPhotography
     .map((file) => (file.startsWith("/") ? file : `/media/photography/${file}`))
-    .filter((src) => allImages.has(src));
+    .filter((src) => {
+      const relative = src.replace(/^\/media\/photography\//, "");
+      return fs.existsSync(path.join(PHOTOGRAPHY_DIR, relative));
+    });
 }

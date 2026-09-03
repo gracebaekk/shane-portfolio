@@ -3,6 +3,7 @@ import Nav from "@/components/Nav";
 import Marquee from "@/components/Marquee";
 import ProjectCard from "@/components/ProjectCard";
 import { projects } from "@/lib/projects";
+import { getFeaturedPhotographyImages, getJustForFunImages } from "@/lib/photography";
 
 const contacts = [
   { label: "Email", value: "shanechoi820@g.ucla.edu", href: "shanechoi820@g.ucla.edu" },
@@ -24,13 +25,6 @@ const socialPlatforms = [
   },
 ];
 
-const shortFormTiles = [
-  { platform: "Instagram", href: "https://www.instagram.com/shanekchoi/", from: "#f0cfc9", to: "#e2b7bd" },
-  { platform: "TikTok", href: "https://www.tiktok.com/@shanekchoi", from: "#d6cde0", to: "#c9d6e4" },
-  { platform: "Instagram", href: "https://www.instagram.com/shanekchoi/", from: "#f0e3bf", to: "#f0cfc9" },
-  { platform: "TikTok", href: "https://www.tiktok.com/@shanekchoi", from: "#cbd8c4", to: "#c9bcb0" },
-];
-
 const photoTiles = [
   ["#e5ddd4", "#c9bcb0"],
   ["#f0cfc9", "#d6cde0"],
@@ -45,6 +39,9 @@ const disciplines = [
 ];
 
 export default function Home() {
+  const featuredPhotos = getFeaturedPhotographyImages();
+  const justForFunPhotos = getJustForFunImages();
+
   return (
     <>
       <Nav />
@@ -53,7 +50,7 @@ export default function Home() {
         <section className="mx-auto max-w-6xl px-6 pt-20 pb-16 md:pt-32">
           <p className="label flex items-center gap-3 text-ink-soft">
             <span className="animate-spin-slow inline-block text-accent">✳</span>
-            Los Angeles · Looking to work
+            Irvine, CA · Looking to work
           </p>
 
           <h1 className="font-display mt-8">
@@ -203,40 +200,41 @@ export default function Home() {
             </h2>
 
             <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-soft">
-              In my free time I make short form content on Instagram and TikTok:
-              fashion, beauty, culture, and whatever I&apos;m experimenting with that
-              week. Shooting, editing, and posting keeps me close to what&apos;s
-              happening and sharpens my eye outside of client work.
+              In my free time, I love creating visual work, whether that is short form
+              on TikTok, photography, or filming whatever I am into that week. It keeps
+              me close to what&apos;s happening and sharpens my eye outside of client work.
             </p>
 
-            <div className="mt-16">
-              <div className="flex flex-wrap items-baseline justify-between gap-4 border-b border-ink/15 pb-3">
-                <p className="label text-accent">Short form</p>
-                <p className="label text-ink-soft">@shanekchoi</p>
-              </div>
+            {justForFunPhotos.length > 0 && (
+              <div className="mt-16">
+                <div className="flex flex-wrap items-baseline justify-between gap-4 border-b border-ink/15 pb-3">
+                  <p className="label text-accent">Just for fun</p>
+                </div>
 
-              <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-4">
-                {shortFormTiles.map((tile, i) => (
-                  <a
-                    key={i}
-                    href={tile.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group relative aspect-9/16 overflow-hidden rounded-sm border border-ink/10"
-                    style={{
-                      background: `linear-gradient(160deg, ${tile.from}, ${tile.to})`,
-                    }}
-                  >
-                    <span className="label absolute top-3 left-3 rounded-full bg-cream/90 px-3 py-1 text-ink-soft">
-                      {tile.platform}
-                    </span>
-                    <span className="label absolute right-3 bottom-3 rounded-full bg-cream/90 px-3 py-1 opacity-0 transition-opacity group-hover:opacity-100">
-                      View ↗
-                    </span>
-                  </a>
-                ))}
+                <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-4">
+                  {justForFunPhotos.map((src, i) => (
+                    <Link
+                      key={src}
+                      href="/photo"
+                      className="group relative aspect-3/4 overflow-hidden rounded-sm border border-ink/10"
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={src}
+                        alt="Photography by Shane Choi"
+                        className={`h-full w-full object-cover transition-transform duration-700 group-hover:scale-105 ${
+                          i === 0
+                            ? "object-[85%_center]"
+                            : i === justForFunPhotos.length - 1
+                              ? "object-[20%_center]"
+                              : "object-center"
+                        }`}
+                      />
+                    </Link>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
 
             <div className="mt-20">
               <div className="flex flex-wrap items-baseline justify-between gap-4 border-b border-ink/10 pb-6">
@@ -248,13 +246,30 @@ export default function Home() {
 
 
               <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-4">
-                {photoTiles.map(([from, to], i) => (
-                  <div
-                    key={i}
-                    className="aspect-3/4 rounded-sm border border-ink/10"
-                    style={{ background: `linear-gradient(160deg, ${from}, ${to})` }}
-                  />
-                ))}
+                {featuredPhotos.length > 0
+                  ? featuredPhotos.map((src) => (
+                      <Link
+                        key={src}
+                        href="/photo"
+                        className="group relative aspect-3/4 overflow-hidden rounded-sm border border-ink/10"
+                      >
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={src}
+                          alt="Photography by Shane Choi"
+                          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        />
+                      </Link>
+                    ))
+                  : photoTiles.map(([from, to], i) => (
+                      <div
+                        key={i}
+                        className="aspect-3/4 rounded-sm border border-ink/10"
+                        style={{
+                          background: `linear-gradient(160deg, ${from}, ${to})`,
+                        }}
+                      />
+                    ))}
               </div>
             </div>
           </div>
@@ -283,9 +298,6 @@ export default function Home() {
               ))}
             </ul>
 
-            <p className="label mt-16 text-ink/50">
-              Designed &amp; built by Shane Choi ☆
-            </p>
           </div>
         </section>
       </main>

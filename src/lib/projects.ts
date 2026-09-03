@@ -12,6 +12,8 @@ export type Project = {
   /** Two hues used by the placeholder tile until a real cover image exists. */
   swatch: [string, string];
   status?: "live" | "coming-soon";
+  /** Override the default /work/[slug] destination */
+  href?: string;
 };
 
 export function getProjectBySlug(slug: string): Project | undefined {
@@ -27,7 +29,7 @@ export const projects: Project[] = [
     year: "2024-26",
     blurb:
       "Reimagined UCLA KASA's visual identity across Instagram, TikTok, events, and campaigns and grew engagement 15%.",
-    cover: "/work/kasa/hero.jpeg",
+    cover: "/work/kasa/hero.png",
     swatch: ["#f0cfc9", "#e2b7bd"],
   },
   {
@@ -38,7 +40,7 @@ export const projects: Project[] = [
     year: "2025",
     blurb:
       "Redesigned DoorDash's search and saved stores experience with advanced filters to help users find food faster.",
-    cover: "/work/doordash/DoorDash_lowfi.png",
+    cover: "/work/doordash/hero.png",
     swatch: ["#cbd8c4", "#aec5b5"],
   },
   {
@@ -49,8 +51,7 @@ export const projects: Project[] = [
     year: "2025",
     blurb:
       "Redesigned UCLA CAPS intake as a digital app so students can onboard, get matched with services, and schedule appointments without phone triage.",
-    cover: "/work/bruinCAPS/hifi.png",
-    coverClassName: "object-left-top",
+    cover: "/work/bruinCAPS/hero.png",
     swatch: ["#c9d6e4", "#adc0d8"],
   },
   {
@@ -61,7 +62,9 @@ export const projects: Project[] = [
     year: "2024-26",
     blurb:
       "Portrait photography for staff photoshoots and graduation shoots that capture the org's people, community, and milestones.",
+    cover: "/media/photography/hero.png",
     swatch: ["#e5ddd4", "#c9bcb0"],
+    href: "/photo",
   },
   // {
   //   index: "05",

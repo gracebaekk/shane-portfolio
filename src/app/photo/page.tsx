@@ -1,11 +1,7 @@
 import Link from "next/link";
 import Nav from "@/components/Nav";
 import PhotoSlideshow from "@/components/PhotoSlideshow";
-import {
-  getPhotographyImages,
-  getPhotoshootImages,
-  photoshoots,
-} from "@/lib/photography";
+import { getAllPhotoshootImages, getPhotographyImages } from "@/lib/photography";
 
 export const metadata = {
   title: "Photography | Shane Choi",
@@ -15,10 +11,7 @@ export const metadata = {
 
 export default function PhotoPage() {
   const images = getPhotographyImages();
-  const photoshootSections = photoshoots.map((shoot) => ({
-    ...shoot,
-    images: getPhotoshootImages(shoot.slug),
-  }));
+  const staffPhotos = getAllPhotoshootImages();
 
   return (
     <>
@@ -30,19 +23,16 @@ export default function PhotoPage() {
 
         <p className="label mt-10 text-accent">Photography</p>
         <h1 className="font-display mt-4 max-w-4xl text-5xl leading-tight md:text-7xl">
-          Portrait &amp; event work
+          Portrait &amp; Event Work
         </h1>
 
-        {photoshootSections.map(
-          (shoot) =>
-            shoot.images.length > 0 && (
-              <PhotoSlideshow
-                key={shoot.slug}
-                images={shoot.images}
-                title={shoot.title}
-                description={shoot.description}
-              />
-            ),
+        {staffPhotos.length > 0 && (
+          <section className="mt-16 border-t border-ink/10 pt-16">
+            <p className="label text-accent">Staff Photoshoot</p>
+            <div className="mt-8">
+              <PhotoSlideshow images={staffPhotos} />
+            </div>
+          </section>
         )}
 
         {images.length > 0 && (
@@ -64,10 +54,9 @@ export default function PhotoPage() {
           </section>
         )}
 
-        {images.length === 0 &&
-          photoshootSections.every((shoot) => shoot.images.length === 0) && (
-            <p className="mt-12 text-lg text-ink-soft">No photos yet.</p>
-          )}
+        {images.length === 0 && staffPhotos.length === 0 && (
+          <p className="mt-12 text-lg text-ink-soft">No photos yet.</p>
+        )}
       </main>
     </>
   );
