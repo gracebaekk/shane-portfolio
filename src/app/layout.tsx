@@ -2,9 +2,14 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Shane Choi | Creative Marketer & Designer",
+  title: "Shane Choi",
   description:
     "Multidisciplinary creative based in Los Angeles working across brand identity, digital experiences, social content, photography, and experiential marketing.",
+  openGraph: {
+    title: "Shane Choi",
+    description:
+      "Multidisciplinary creative based in Los Angeles working across brand identity, digital experiences, social content, photography, and experiential marketing.",
+  },
 };
 
 export default function RootLayout({
